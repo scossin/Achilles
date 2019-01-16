@@ -895,7 +895,9 @@ createIndices <- function(connectionDetails,
   invisible(c(dropIndicesSql, indicesSql))
 }
 
-
+.supportsTempTables <- function(connectionDetails) {
+    !(connectionDetails$dbms %in% c("bigquery"))
+}
 
 #' Validate the CDM schema
 #' 
