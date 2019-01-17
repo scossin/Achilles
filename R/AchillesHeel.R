@@ -125,12 +125,14 @@ achillesHeel <- function(connectionDetails,
   
   if (numThreads == 1 || scratchDatabaseSchema == "#") {
     message("Beginning single-threaded operations")
-    
+
     numThreads <- 1
+
     if (.supportsTempTables(connectionDetails)) {
       scratchDatabaseSchema <- "#"
       schemaDelim <- "s_"
     }
+
     ParallelLogger::logInfo("Beginning single-threaded execution")
     # first invocation of the connection, to persist throughout to maintain temp tables
     connection <- DatabaseConnector::connect(connectionDetails = connectionDetails) 
@@ -211,6 +213,8 @@ achillesHeel <- function(connectionDetails,
       OhdsiRTools::stopCluster(cluster = cluster)
     }
   }
+
+  ParallelLogger::logInfo("Generated parallel Heels")
   
   # Merge scratch Heel tables into staging tables ----------------------------------------
   
@@ -236,8 +240,7 @@ achillesHeel <- function(connectionDetails,
                                                   dbms = connectionDetails$dbms,
                                                   warnOnMissingParameters = FALSE,
                                                   schema = scratchDatabaseSchema,
-                                                schemaDelim = "",
-                                                schemaDelim = ifelse(scratchDatabaseSchema == "#", "s_", "."),
+                                                  schemaDelim = ifelse(scratchDatabaseSchema == "#", "s_", "."),
                                                   destination = "achilles_rd_0",
                                                   derivedSqls = paste(derivedSqls, collapse = " \nunion all\n "))
   
@@ -274,6 +277,8 @@ achillesHeel <- function(connectionDetails,
       DatabaseConnector::executeSql(connection = connection, sql = sql)
     }
   }
+
+  ParallelLogger::logInfo("Merged scratch Heel tables into staging tables")
   
   # Run serial queries to finish up ---------------------------------------------------
   
@@ -298,8 +303,8 @@ achillesHeel <- function(connectionDetails,
                                                    packageName = "Achilles",
                                                    dbms = connectionDetails$dbms,
                                                    schema = scratchDatabaseSchema,
-                                                  schemaDelim = ifelse(scratchDatabaseSchema == "#", "s_", "."),
-                                                  oracleTempSchema = scratchDatabaseSchema,
+                                                   schemaDelim = ifelse(scratchDatabaseSchema == "#", "s_", "."),
+                                                   oracleTempSchema = scratchDatabaseSchema,
                                                    warnOnMissingParameters = FALSE,
                                                    resultsDatabaseSchema = resultsDatabaseSchema,
                                                    rdOldId = rdOldId,
@@ -319,8 +324,7 @@ achillesHeel <- function(connectionDetails,
     }
     
     sqlDropPrior <- ""
-    print(i)
-    print(drops)
+    
     if (i > 1) {
       sqlDropPriors <- lapply(drops, function(drop) {
         sql <- SqlRender::renderSql(sql = "IF OBJECT_ID('tempdb..#@table', 'U') IS NOT NULL DROP TABLE #@table;",
@@ -355,8 +359,6 @@ achillesHeel <- function(connectionDetails,
                                                 sql = sprintf("select * from #serial_rd_%d", rdId),
                                                 targetDialect = connectionDetails$dbms, oracleTempSchema = scratchDatabaseSchema)$sql
                                              )
-                                             # derivedSqls = sprintf("select * from #serial_rd_%d",
-                                             #                      rdId))
   
   sqlHr <- SqlRender::loadRenderTranslateSql(sqlFilename = "heels/merge_heel_results.sql", 
                                              packageName = "Achilles", 
@@ -369,8 +371,6 @@ achillesHeel <- function(connectionDetails,
                                                 sql = sprintf("select * from #serial_hr_%d", hrId),
                                                 targetDialect = connectionDetails$dbms, oracleTempSchema = scratchDatabaseSchema)$sql
                                              )
-                                             # resultSqls = sprintf("select * from #serial_hr_%d",
-                                             #                      hrId))
   
   finalSqls <- c(sqlRd, sqlHr)
   heelSql <- c(heelSql, finalSqls)
