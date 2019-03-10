@@ -23,14 +23,14 @@ Imports:
   SqlRender (>= 1.6.0),
   dplyr,
   rjson,
-  ParallelLogger
+  ParallelLogger,
+  magrittr
 Suggests:
   testthat,
   R.utils,
   shiny,
   DT,
   shinydashboard,
-  magrittr,
   tidyr,
   knitr, 
   rmarkdown
