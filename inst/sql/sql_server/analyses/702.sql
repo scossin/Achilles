@@ -4,12 +4,17 @@
 WITH rawData AS (
   select
     de1.drug_concept_id as stratum_1,
-    YEAR(drug_exposure_start_date)*100 + month(drug_exposure_start_date) as stratum_2,
-    COUNT_BIG(distinct PERSON_ID) as count_value
+    YEAR(de1.drug_exposure_start_date)*100 + month(de1.drug_exposure_start_date) as stratum_2,
+    COUNT_BIG(distinct de1.PERSON_ID) as count_value
   from
   @cdmDatabaseSchema.drug_exposure de1
+  inner join
+  @cdmDatabaseSchema.observation_period op
+    on op.person_id = de1.person_id 
+    and de1.drug_exposure_start_date >= op.observation_period_start_date
+	  and de1.drug_exposure_start_date <= op.observation_period_end_date
   group by de1.drug_concept_id,
-    YEAR(drug_exposure_start_date)*100 + month(drug_exposure_start_date)
+    YEAR(de1.drug_exposure_start_date)*100 + month(de1.drug_exposure_start_date)
 )
 SELECT
   702 as analysis_id,
