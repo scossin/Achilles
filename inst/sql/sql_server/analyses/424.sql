@@ -5,15 +5,30 @@
 -- create unique person_id,condition_concept_id pairs for people with at least 2 different (mapped) conditions.
 
 --HINT DISTRIBUTE_ON_KEY(condition_concept_id)
-select distinct person_id,condition_concept_id
+with ctePairs
+as
+(
+  SELECT distinct person_id,condition_concept_id
+  FROM @cdmDatabaseSchema.condition_occurrence
+  where condition_concept_id != 0
+),
+cteSingles
+as
+(
+  select person_id, count(distinct condition_concept_id) AS count_of_condition_concept_id
+   from @cdmDatabaseSchema.condition_occurrence
+   where condition_concept_id != 0
+   group by person_id
+   having count_of_condition_concept_id = 1
+)
+select distinct A.person_id, A.condition_concept_id
   into #unique_pairs_424
-  from @cdmDatabaseSchema.condition_occurrence
- where condition_concept_id != 0
-   and person_id not in ( select person_id 
-                            from @cdmDatabaseSchema.condition_occurrence
-						   where condition_concept_id != 0
-                           group by person_id
-                          having count(distinct condition_concept_id) = 1 );
+  from ctePairs A 
+  left join cteSingles B on A.person_id = B.person_id
+where B.person_id is null
+;
+    
+
 
 -- Create ordered pairs of concept_ids, then count and rank them (condition pairs must have at least 1000 distinct people)
 

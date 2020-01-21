@@ -4,8 +4,9 @@
 select 11 as analysis_id,  CAST(year_of_birth AS VARCHAR(255)) as stratum_1,
   CAST(gender_concept_id AS VARCHAR(255)) as stratum_2,
   cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5,
-  COUNT_BIG(distinct person_id) as count_value
+  COUNT_BIG(distinct A.person_id) as count_value
 into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_11
-from @cdmDatabaseSchema.person
-where person_id not in (select person_id from @cdmDatabaseSchema.death)
+from @cdmDatabaseSchema.person A
+left join @cdmDatabaseSchema.death B on A.person_id = B.person_id
+where B.person_id is null
 group by YEAR_OF_BIRTH, gender_concept_id;
