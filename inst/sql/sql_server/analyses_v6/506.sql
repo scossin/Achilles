@@ -5,19 +5,19 @@
 with rawData(stratum_id, count_value) as
 (
  select 
-    P.gender_concept_id,
+    P.gender_concept_id, 
     D.death_year - P.year_of_birth as count_value
   from @cdmDatabaseSchema.person P
   join
   (
-    select P.person_id, min(year(O.observation_datetime)) as death_year
+    select O.person_id, min(year(O.observation_datetime)) as death_year
     from @cdmDatabaseSchema.observation O
     join @cdmDatabaseSchema.person P on O.person_id = P.person_id
       and O.observation_datetime = P.death_datetime
     where O.observation_concept_id = 4306655 -- death concept id  
     group by O.person_id
   ) D
-  on P.person_id = d1.person_id
+  on P.person_id = D.person_id
 ),
 overallStats (stratum_id, avg_value, stdev_value, min_value, max_value, total) as
 (
