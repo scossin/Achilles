@@ -4,9 +4,13 @@
 \alias{conceptHierarchy}
 \title{execution of concept hierarchy creation}
 \usage{
-conceptHierarchy(connectionDetails, vocabDatabaseSchema,
+conceptHierarchy(
+  connectionDetails,
+  vocabDatabaseSchema,
   oracleTempSchema = vocabDatabaseSchema,
-  resultsDatabaseSchema = vocabDatabaseSchema, cdmVersion = "5")
+  resultsDatabaseSchema = vocabDatabaseSchema,
+  cdmVersion = "5"
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}

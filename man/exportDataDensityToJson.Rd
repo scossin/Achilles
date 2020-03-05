@@ -4,9 +4,14 @@
 \alias{exportDataDensityToJson}
 \title{exportDataDensityToJson}
 \usage{
-exportDataDensityToJson(connectionDetails, cdmDatabaseSchema,
-  resultsDatabaseSchema, outputPath = getwd(), cdmVersion = "4",
-  vocabDatabaseSchema = cdmDatabaseSchema)
+exportDataDensityToJson(
+  connectionDetails,
+  cdmDatabaseSchema,
+  resultsDatabaseSchema,
+  outputPath = getwd(),
+  cdmVersion = "4",
+  vocabDatabaseSchema = cdmDatabaseSchema
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}

@@ -4,10 +4,14 @@
 \alias{achillesHeel}
 \title{execution of data quality rules}
 \usage{
-achillesHeel(connectionDetails, cdmDatabaseSchema,
+achillesHeel(
+  connectionDetails,
+  cdmDatabaseSchema,
   oracleTempSchema = cdmDatabaseSchema,
-  resultsDatabaseSchema = cdmDatabaseSchema, cdmVersion = "5",
-  vocabDatabaseSchema = cdmDatabaseSchema)
+  resultsDatabaseSchema = cdmDatabaseSchema,
+  cdmVersion = "5",
+  vocabDatabaseSchema = cdmDatabaseSchema
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}

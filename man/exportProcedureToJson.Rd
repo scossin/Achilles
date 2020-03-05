@@ -4,9 +4,14 @@
 \alias{exportProcedureToJson}
 \title{exportProcedureToJson}
 \usage{
-exportProcedureToJson(connectionDetails, cdmDatabaseSchema,
-  resultsDatabaseSchema, outputPath = getwd(), cdmVersion = "4",
-  vocabDatabaseSchema = cdmDatabaseSchema)
+exportProcedureToJson(
+  connectionDetails,
+  cdmDatabaseSchema,
+  resultsDatabaseSchema,
+  outputPath = getwd(),
+  cdmVersion = "4",
+  vocabDatabaseSchema = cdmDatabaseSchema
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}

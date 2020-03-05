@@ -4,13 +4,24 @@
 \alias{achilles}
 \title{The main Achilles analysis}
 \usage{
-achilles(connectionDetails, cdmDatabaseSchema,
+achilles(
+  connectionDetails,
+  cdmDatabaseSchema,
   oracleTempSchema = cdmDatabaseSchema,
-  resultsDatabaseSchema = cdmDatabaseSchema, sourceName = "", analysisIds,
-  createTable = TRUE, smallcellcount = 5, cdmVersion = "4",
-  runHeel = TRUE, validateSchema = FALSE,
-  vocabDatabaseSchema = cdmDatabaseSchema, runCostAnalysis = FALSE,
-  sqlOnly = FALSE, conceptHierarchy = TRUE, createIndices = TRUE)
+  resultsDatabaseSchema = cdmDatabaseSchema,
+  sourceName = "",
+  analysisIds,
+  createTable = TRUE,
+  smallcellcount = 5,
+  cdmVersion = "4",
+  runHeel = TRUE,
+  validateSchema = FALSE,
+  vocabDatabaseSchema = cdmDatabaseSchema,
+  runCostAnalysis = FALSE,
+  sqlOnly = FALSE,
+  conceptHierarchy = TRUE,
+  createIndices = TRUE
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}

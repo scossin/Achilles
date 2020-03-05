@@ -4,8 +4,12 @@
 \alias{createIndices}
 \title{Create indices on Achilles results tables and concept hierarchy}
 \usage{
-createIndices(connectionDetails, resultsDatabaseSchema,
-  oracleTempSchema = resultsDatabaseSchema, cdmVersion = "5")
+createIndices(
+  connectionDetails,
+  resultsDatabaseSchema,
+  oracleTempSchema = resultsDatabaseSchema,
+  cdmVersion = "5"
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type ConnectionDetail (details for the function that contains server info, database type, optionally username/password, port)}
