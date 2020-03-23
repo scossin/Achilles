@@ -17,7 +17,7 @@ from (select * from @results_database_schema.ACHILLES_results where analysis_id 
 		(
 		select concept_id, concept_name
 		from @vocab_database_schema.concept
-		where vocabulary_id in (5,6)
+		where vocabulary_id in (1,4,5,6,40,41,42,47,55,60,86,89,98,112,118)
 		) obs left join @vocab_database_schema.concept_ancestor ca1 on obs.concept_id = ca1.DESCENDANT_CONCEPT_ID and ca1.min_levels_of_separation = 1
 		left join @vocab_database_schema.concept c1 on ca1.ANCESTOR_CONCEPT_ID = c1.concept_id
 		left join @vocab_database_schema.concept_ancestor ca2 on c1.concept_id = ca2.DESCENDANT_CONCEPT_ID and ca2.min_levels_of_separation = 1

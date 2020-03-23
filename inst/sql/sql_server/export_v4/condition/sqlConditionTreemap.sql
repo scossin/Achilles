@@ -19,7 +19,7 @@ from (select * from @results_database_schema.ACHILLES_results where analysis_id 
 		(
 		select concept_id, concept_name
 		from @vocab_database_schema.concept
-		where vocabulary_id in (1,5)
+		where vocabulary_id in (1,5,55,90,112)
 		) snomed
 		left join
 			(select c1.concept_id as snomed_concept_id, max(c2.concept_id) as pt_concept_id
@@ -28,7 +28,7 @@ from (select * from @results_database_schema.ACHILLES_results where analysis_id 
 			inner join 
 			@vocab_database_schema.concept_ancestor ca1
 			on c1.concept_id = ca1.descendant_concept_id
-			and c1.vocabulary_id in (1,5)
+			and c1.vocabulary_id in (1,5,55,90,112)
 			inner join 
 			@vocab_database_schema.concept c2
 			on ca1.ancestor_concept_id = c2.concept_id

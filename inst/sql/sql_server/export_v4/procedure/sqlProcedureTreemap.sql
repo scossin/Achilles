@@ -25,7 +25,7 @@ from (select * from @results_database_schema.ACHILLES_results where analysis_id 
 			inner join @vocab_database_schema.vocabulary v1
 			on c1.vocabulary_id = v1.vocabulary_id
 		where (
-			c1.vocabulary_id in (3,4,5,35)
+			c1.vocabulary_id in (1, 3, 4, 5, 35, 55, 112, 117, 118)
 			or (c1.vocabulary_id = 1 and c1.concept_class = 'Procedure')
 			)
 		) procs
