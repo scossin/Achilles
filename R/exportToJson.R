@@ -613,11 +613,11 @@ generateAchillesHeelReport <- function(conn, dbms, cdmDatabaseSchema, resultsDat
   output <- {}
   
   queryAchillesHeel <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/achillesheel/sqlAchillesHeel.sql",cdmVersion),
-                                              packageName = "Achilles",
-                                              dbms = dbms,
-                                              cdm_database_schema = cdmDatabaseSchema,
-                                              results_database_schema = resultsDatabaseSchema,
-                                              vocab_database_schema = vocabDatabaseSchema
+                                                         packageName = "Achilles",
+                                                         dbms = dbms,
+                                                         cdm_database_schema = cdmDatabaseSchema,
+                                                         results_database_schema = resultsDatabaseSchema,
+                                                         vocab_database_schema = vocabDatabaseSchema
   )  
   
   output$MESSAGES <- DatabaseConnector::querySql(conn,queryAchillesHeel)
@@ -630,9 +630,9 @@ generateDomainMetaReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatab
   output <- {}
   
   queryDomainMeta <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/domainmeta/sqlDomainMeta.sql",cdmVersion),
-                                            packageName = "Achilles",
-                                            dbms = dbms,
-                                            cdm_database_schema = cdmDatabaseSchema
+                                                       packageName = "Achilles",
+                                                       dbms = dbms,
+                                                       cdm_database_schema = cdmDatabaseSchema
   )  
   
   if ("CDM_DOMAIN_META" %in% DatabaseConnector::getTableNames(connection = conn, databaseSchema = cdmDatabaseSchema))
@@ -652,12 +652,12 @@ generateDrugEraTreemap <- function(conn, dbms,cdmDatabaseSchema, resultsDatabase
   progressBar <- utils::txtProgressBar(max=1,style=3)
   progress = 0
   
-queryDrugEraTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlDrugEraTreemap.sql",cdmVersion),
-                                                packageName = "Achilles",
-                                                dbms = dbms,
-                                                cdm_database_schema = cdmDatabaseSchema,
-                                                results_database_schema = resultsDatabaseSchema,
-                                                vocab_database_schema = vocabDatabaseSchema
+  queryDrugEraTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlDrugEraTreemap.sql",cdmVersion),
+                                                           packageName = "Achilles",
+                                                           dbms = dbms,
+                                                           cdm_database_schema = cdmDatabaseSchema,
+                                                           results_database_schema = resultsDatabaseSchema,
+                                                           vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataDrugEraTreemap <- DatabaseConnector::querySql(conn,queryDrugEraTreemap) 
@@ -675,11 +675,11 @@ generateDrugTreemap <- function(conn, dbms,cdmDatabaseSchema, resultsDatabaseSch
   progress = 0
   
   queryDrugTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlDrugTreemap.sql",cdmVersion),
-                                             packageName = "Achilles",
-                                             dbms = dbms,
-                                             cdm_database_schema = cdmDatabaseSchema,
-                                             results_database_schema = resultsDatabaseSchema,
-                                             vocab_database_schema = vocabDatabaseSchema
+                                                        packageName = "Achilles",
+                                                        dbms = dbms,
+                                                        cdm_database_schema = cdmDatabaseSchema,
+                                                        results_database_schema = resultsDatabaseSchema,
+                                                        vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataDrugTreemap <- DatabaseConnector::querySql(conn,queryDrugTreemap) 
@@ -697,11 +697,11 @@ generateConditionTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDatab
   progress = 0
   
   queryConditionTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/condition/sqlConditionTreemap.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                             packageName = "Achilles",
+                                                             dbms = dbms,
+                                                             cdm_database_schema = cdmDatabaseSchema,
+                                                             results_database_schema = resultsDatabaseSchema,
+                                                             vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataConditionTreemap <- DatabaseConnector::querySql(conn,queryConditionTreemap) 
@@ -719,11 +719,11 @@ generateConditionEraTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDa
   progress = 0
   
   queryConditionEraTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/conditionera/sqlConditionEraTreemap.sql",cdmVersion),
-                                                     packageName = "Achilles",
-                                                     dbms = dbms,
-                                                     cdm_database_schema = cdmDatabaseSchema,
-                                                     results_database_schema = resultsDatabaseSchema,
-                                                     vocab_database_schema = vocabDatabaseSchema
+                                                                packageName = "Achilles",
+                                                                dbms = dbms,
+                                                                cdm_database_schema = cdmDatabaseSchema,
+                                                                results_database_schema = resultsDatabaseSchema,
+                                                                vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataConditionEraTreemap <- DatabaseConnector::querySql(conn,queryConditionEraTreemap) 
@@ -761,35 +761,35 @@ generateConditionReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatab
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/condition/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/condition/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
   queryConditionsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/condition/sqlConditionsByType.sql",cdmVersion),
-                                                  packageName = "Achilles",
-                                                  dbms = dbms,
-                                                  cdm_database_schema = cdmDatabaseSchema,
-                                                  results_database_schema = resultsDatabaseSchema,
-                                                  vocab_database_schema = vocabDatabaseSchema
+                                                             packageName = "Achilles",
+                                                             dbms = dbms,
+                                                             cdm_database_schema = cdmDatabaseSchema,
+                                                             results_database_schema = resultsDatabaseSchema,
+                                                             vocab_database_schema = vocabDatabaseSchema
   )
   
   queryAgeAtFirstDiagnosis <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/condition/sqlAgeAtFirstDiagnosis.sql",cdmVersion),
-                                                     packageName = "Achilles",
-                                                     dbms = dbms,
-                                                     cdm_database_schema = cdmDatabaseSchema,
-                                                     results_database_schema = resultsDatabaseSchema,
-                                                     vocab_database_schema = vocabDatabaseSchema
+                                                                packageName = "Achilles",
+                                                                dbms = dbms,
+                                                                cdm_database_schema = cdmDatabaseSchema,
+                                                                results_database_schema = resultsDatabaseSchema,
+                                                                vocab_database_schema = vocabDatabaseSchema
   )
   
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
@@ -846,35 +846,35 @@ generateConditionEraReports <- function(conn, dbms, cdmDatabaseSchema, resultsDa
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/conditionera/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/conditionera/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
   queryAgeAtFirstDiagnosis <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/conditionera/sqlAgeAtFirstDiagnosis.sql",cdmVersion),
-                                                     packageName = "Achilles",
-                                                     dbms = dbms,
-                                                     cdm_database_schema = cdmDatabaseSchema,
-                                                     results_database_schema = resultsDatabaseSchema,
-                                                     vocab_database_schema = vocabDatabaseSchema
+                                                                packageName = "Achilles",
+                                                                dbms = dbms,
+                                                                cdm_database_schema = cdmDatabaseSchema,
+                                                                results_database_schema = resultsDatabaseSchema,
+                                                                vocab_database_schema = vocabDatabaseSchema
   )
   
   queryLengthOfEra <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/conditionera/sqlLengthOfEra.sql",cdmVersion),
-                                             packageName = "Achilles",
-                                             dbms = dbms,
-                                             cdm_database_schema = cdmDatabaseSchema,
-                                             results_database_schema = resultsDatabaseSchema,
-                                             vocab_database_schema = vocabDatabaseSchema
+                                                        packageName = "Achilles",
+                                                        dbms = dbms,
+                                                        cdm_database_schema = cdmDatabaseSchema,
+                                                        results_database_schema = resultsDatabaseSchema,
+                                                        vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
@@ -932,35 +932,35 @@ generateDrugEraReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabas
   progress = 0
   
   queryAgeAtFirstExposure <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlAgeAtFirstExposure.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
   queryLengthOfEra <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drugera/sqlLengthOfEra.sql",cdmVersion),
-                                             packageName = "Achilles",
-                                             dbms = dbms,
-                                             cdm_database_schema = cdmDatabaseSchema,
-                                             results_database_schema = resultsDatabaseSchema,
-                                             vocab_database_schema = vocabDatabaseSchema
+                                                        packageName = "Achilles",
+                                                        dbms = dbms,
+                                                        cdm_database_schema = cdmDatabaseSchema,
+                                                        results_database_schema = resultsDatabaseSchema,
+                                                        vocab_database_schema = vocabDatabaseSchema
   )
   
   dataAgeAtFirstExposure <- DatabaseConnector::querySql(conn,queryAgeAtFirstExposure) 
@@ -1016,14 +1016,22 @@ generateDrugReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseSc
   progress = 0
   
   queryAgeAtFirstExposure <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlAgeAtFirstExposure.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
   queryDaysSupplyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlDaysSupplyDistribution.sql",cdmVersion),
+                                                                   packageName = "Achilles",
+                                                                   dbms = dbms,
+                                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                                   results_database_schema = resultsDatabaseSchema,
+                                                                   vocab_database_schema = vocabDatabaseSchema
+  )
+  
+  queryDrugsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlDrugsByType.sql",cdmVersion),
                                                         packageName = "Achilles",
                                                         dbms = dbms,
                                                         cdm_database_schema = cdmDatabaseSchema,
@@ -1031,52 +1039,44 @@ generateDrugReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseSc
                                                         vocab_database_schema = vocabDatabaseSchema
   )
   
-  queryDrugsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlDrugsByType.sql",cdmVersion),
-                                             packageName = "Achilles",
-                                             dbms = dbms,
-                                             cdm_database_schema = cdmDatabaseSchema,
-                                             results_database_schema = resultsDatabaseSchema,
-                                             vocab_database_schema = vocabDatabaseSchema
-  )
-  
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
-  queryDrugFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlFrequencyDistribution.sql",cdmVersion), 
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
-  )
+  # queryDrugFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlFrequencyDistribution.sql",cdmVersion), 
+  #                                                          packageName = "Achilles",
+  #                                                          dbms = dbms,
+  #                                                          cdm_database_schema = cdmDatabaseSchema,
+  #                                                          results_database_schema = resultsDatabaseSchema,
+  #                                                          vocab_database_schema = vocabDatabaseSchema
+  # )
   
   queryQuantityDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlQuantityDistribution.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
   )
   
   queryRefillsDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/drug/sqlRefillsDistribution.sql",cdmVersion),
-                                                     packageName = "Achilles",
-                                                     dbms = dbms,
-                                                     cdm_database_schema = cdmDatabaseSchema,
-                                                     results_database_schema = resultsDatabaseSchema,
-                                                     vocab_database_schema = vocabDatabaseSchema
+                                                                packageName = "Achilles",
+                                                                dbms = dbms,
+                                                                cdm_database_schema = cdmDatabaseSchema,
+                                                                results_database_schema = resultsDatabaseSchema,
+                                                                vocab_database_schema = vocabDatabaseSchema
   )
   
   dataAgeAtFirstExposure <- DatabaseConnector::querySql(conn,queryAgeAtFirstExposure) 
@@ -1086,7 +1086,7 @@ generateDrugReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseSc
   dataPrevalenceByMonth <- DatabaseConnector::querySql(conn,queryPrevalenceByMonth)
   dataQuantityDistribution <- DatabaseConnector::querySql(conn,queryQuantityDistribution) 
   dataRefillsDistribution <- DatabaseConnector::querySql(conn,queryRefillsDistribution) 
-  dataDrugFrequencyDistribution <- DatabaseConnector::querySql(conn,queryDrugFrequencyDistribution)
+  #dataDrugFrequencyDistribution <- DatabaseConnector::querySql(conn,queryDrugFrequencyDistribution)
   
   buildDrugReport <- function(concept_id) {
     report <- {}
@@ -1095,7 +1095,7 @@ generateDrugReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseSc
     report$DRUGS_BY_TYPE <- dataDrugsByType[dataDrugsByType$DRUG_CONCEPT_ID == concept_id, c(3,4)]
     report$PREVALENCE_BY_GENDER_AGE_YEAR <- dataPrevalenceByGenderAgeYear[dataPrevalenceByGenderAgeYear$CONCEPT_ID == concept_id,c(3,4,5,6)]  
     report$PREVALENCE_BY_MONTH <- dataPrevalenceByMonth[dataPrevalenceByMonth$CONCEPT_ID == concept_id,c(3,4)]
-    report$DRUG_FREQUENCY_DISTRIBUTION <- dataDrugFrequencyDistribution[dataDrugFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
+    #report$DRUG_FREQUENCY_DISTRIBUTION <- dataDrugFrequencyDistribution[dataDrugFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
     report$QUANTITY_DISTRIBUTION <- dataQuantityDistribution[dataQuantityDistribution$DRUG_CONCEPT_ID == concept_id, c(2,3,4,5,6,7,8,9)]
     report$REFILLS_DISTRIBUTION <- dataRefillsDistribution[dataRefillsDistribution$DRUG_CONCEPT_ID == concept_id, c(2,3,4,5,6,7,8,9)]
     
@@ -1122,11 +1122,11 @@ generateProcedureTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDatab
   progress = 0
   
   queryProcedureTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlProcedureTreemap.sql",cdmVersion),
-                                                  packageName = "Achilles",
-                                                  dbms = dbms,
-                                                  cdm_database_schema = cdmDatabaseSchema,
-                                                  results_database_schema = resultsDatabaseSchema,
-                                                  vocab_database_schema = vocabDatabaseSchema
+                                                             packageName = "Achilles",
+                                                             dbms = dbms,
+                                                             cdm_database_schema = cdmDatabaseSchema,
+                                                             results_database_schema = resultsDatabaseSchema,
+                                                             vocab_database_schema = vocabDatabaseSchema
   )  
   
   dataProcedureTreemap <- DatabaseConnector::querySql(conn,queryProcedureTreemap) 
@@ -1163,56 +1163,56 @@ generateProcedureReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatab
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
-  queryProcedureFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlFrequencyDistribution.sql",cdmVersion), 
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
-  )
+  # queryProcedureFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlFrequencyDistribution.sql",cdmVersion), 
+  #                                                          packageName = "Achilles",
+  #                                                          dbms = dbms,
+  #                                                          cdm_database_schema = cdmDatabaseSchema,
+  #                                                          results_database_schema = resultsDatabaseSchema,
+  #                                                          vocab_database_schema = vocabDatabaseSchema
+  # )
   
   queryProceduresByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlProceduresByType.sql",cdmVersion),
-                                                  packageName = "Achilles",
-                                                  dbms = dbms,
-                                                  cdm_database_schema = cdmDatabaseSchema,
-                                                  results_database_schema = resultsDatabaseSchema,
-                                                  vocab_database_schema = vocabDatabaseSchema
+                                                             packageName = "Achilles",
+                                                             dbms = dbms,
+                                                             cdm_database_schema = cdmDatabaseSchema,
+                                                             results_database_schema = resultsDatabaseSchema,
+                                                             vocab_database_schema = vocabDatabaseSchema
   )
   
   queryAgeAtFirstOccurrence <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/procedure/sqlAgeAtFirstOccurrence.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
   )
   
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
   dataPrevalenceByMonth <- DatabaseConnector::querySql(conn,queryPrevalenceByMonth)  
   dataProceduresByType <- DatabaseConnector::querySql(conn,queryProceduresByType)    
   dataAgeAtFirstOccurrence <- DatabaseConnector::querySql(conn,queryAgeAtFirstOccurrence)    
-  dataProcedureFrequencyDistribution <- DatabaseConnector::querySql(conn,queryProcedureFrequencyDistribution)
+  #dataProcedureFrequencyDistribution <- DatabaseConnector::querySql(conn,queryProcedureFrequencyDistribution)
   
   buildProcedureReport <- function(concept_id) {
     report <- {}
     report$PREVALENCE_BY_GENDER_AGE_YEAR <- dataPrevalenceByGenderAgeYear[dataPrevalenceByGenderAgeYear$CONCEPT_ID == concept_id,c(3,4,5,6)]    
     report$PREVALENCE_BY_MONTH <- dataPrevalenceByMonth[dataPrevalenceByMonth$CONCEPT_ID == concept_id,c(3,4)]
-    report$PROCEDURE_FREQUENCY_DISTRIBUTION <- dataProcedureFrequencyDistribution[dataProcedureFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
+    #report$PROCEDURE_FREQUENCY_DISTRIBUTION <- dataProcedureFrequencyDistribution[dataProcedureFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
     report$PROCEDURES_BY_TYPE <- dataProceduresByType[dataProceduresByType$PROCEDURE_CONCEPT_ID == concept_id,c(4,5)]
     report$AGE_AT_FIRST_OCCURRENCE <- dataAgeAtFirstOccurrence[dataAgeAtFirstOccurrence$CONCEPT_ID == concept_id,c(2,3,4,5,6,7,8,9)]
     filename <- paste(outputPath, "/procedures/procedure_" , concept_id , ".json", sep='')  
@@ -1245,11 +1245,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	Row #2:  # of persons
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/population.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   
   personSummaryData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1264,11 +1264,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	Value:  % of persons  
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/gender.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   genderData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1282,11 +1282,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	Value: % of persons
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/race.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   raceData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1300,11 +1300,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	Value: % of persons
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/ethnicity.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   ethnicityData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1319,11 +1319,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   birthYearHist <- {}
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/yearofbirth_stats.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   birthYearStats <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1335,11 +1335,11 @@ generatePersonReport <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   birthYearHist$INTERVALS = (birthYearStats$MAX_VALUE - birthYearStats$MIN_VALUE) / birthYearStats$INTERVAL_SIZE
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/person/yearofbirth_data.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   birthYearData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1379,11 +1379,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   ageAtFirstObservationHist$INTERVALS = 100
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/ageatfirst.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   ageAtFirstObservationData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1397,11 +1397,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   # c.	Values:  Min/25%/Median/95%/Max  - age at time of first observation
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/agebygender.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   ageByGenderData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1416,11 +1416,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   observationLengthHist <- {}
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observationlength_stats.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   
   observationLengthStats <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1432,11 +1432,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   observationLengthHist$INTERVALS = (observationLengthStats$MAX_VALUE - observationLengthStats$MIN_VALUE) / observationLengthStats$INTERVAL_SIZE
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observationlength_data.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   observationLengthData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1449,14 +1449,14 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   # a.	Visualization:  scatterplot
   # b.	X-axis:  length of observation period
   # c.	Y-axis:  % of population observed
-  # d.	Note:  will look like a Kaplan-Meier survival plot, but information is the same as shown in length of observation barchart, just plotted as cumulative 
+  # d.	Note:  will look like a Kaplan-Meier survival plot, but information is the same as shown in length of observational barchart, just plotted as cumulative 
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/cumulativeduration.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   cumulativeDurationData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1470,11 +1470,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   # c.	Values: Min/25%/Median/95%/Max  length of observation period
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observationlengthbygender.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   opLengthByGenderData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1487,11 +1487,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   # c.	Values: Min/25%/Median/95%/Max  length of observation period
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observationlengthbyage.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   opLengthByAgeData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1505,11 +1505,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   
   observedByYearHist <- {}
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observedbyyear_stats.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   observedByYearStats <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1520,11 +1520,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   observedByYearHist$INTERVALS = (observedByYearStats$MAX_VALUE - observedByYearStats$MIN_VALUE) / observedByYearStats$INTERVAL_SIZE
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observedbyyear_data.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   
   observedByYearData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1542,11 +1542,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   observedByMonth <- {}
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/observedbymonth.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   observedByMonth <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1560,11 +1560,11 @@ generateObservationPeriodReport <- function(conn, dbms, cdmDatabaseSchema, resul
   # c.	Values:  # of persons 
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observationperiod/periodsperperson.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )
   personPeriodsData <- DatabaseConnector::querySql(conn,renderedSql)
   progress = progress + 1
@@ -1626,11 +1626,11 @@ generateDataDensityReport <- function(conn, dbms,cdmDatabaseSchema, resultsDatab
   #   d.	series:  person, visit, condition, drug, procedure, observation
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/datadensity/totalrecords.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   totalRecordsData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1645,11 +1645,11 @@ generateDataDensityReport <- function(conn, dbms,cdmDatabaseSchema, resultsDatab
   #   d.	series:  person, visit, condition, drug, procedure, observation
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/datadensity/recordsperperson.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   recordsPerPerson <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1663,11 +1663,11 @@ generateDataDensityReport <- function(conn, dbms,cdmDatabaseSchema, resultsDatab
   #   c.	Values: Min/25%/Median/95%/Max  number of distinct concepts per person
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/datadensity/conceptsperperson.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   conceptsPerPerson <- DatabaseConnector::querySql(conn,renderedSql)
@@ -1688,11 +1688,11 @@ generateMeasurementTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDat
   progress = 0
   
   queryMeasurementTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlMeasurementTreemap.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
   dataMeasurementTreemap <- DatabaseConnector::querySql(conn,queryMeasurementTreemap) 
@@ -1731,54 +1731,14 @@ generateMeasurementReports <- function(conn, dbms, cdmDatabaseSchema, resultsDat
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
-  )
-  
-  queryFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlFrequencyDistribution.sql",cdmVersion), 
-                                                       packageName = "Achilles",
-                                                       dbms = dbms,
-                                                       cdm_database_schema = cdmDatabaseSchema,
-                                                       results_database_schema = resultsDatabaseSchema,
-                                                       vocab_database_schema = vocabDatabaseSchema
-  )
-  
-  queryMeasurementsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlMeasurementsByType.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
-  )
-  
-  queryAgeAtFirstOccurrence <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlAgeAtFirstOccurrence.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
-  )
-  
-  queryRecordsByUnit <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlRecordsByUnit.sql",cdmVersion),
-                                               packageName = "Achilles",
-                                               dbms = dbms,
-                                               cdm_database_schema = cdmDatabaseSchema,
-                                               results_database_schema = resultsDatabaseSchema,
-                                               vocab_database_schema = vocabDatabaseSchema
-  )
-  
-  queryMeasurementValueDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlMeasurementValueDistribution.sql",cdmVersion),
                                                               packageName = "Achilles",
                                                               dbms = dbms,
                                                               cdm_database_schema = cdmDatabaseSchema,
@@ -1786,28 +1746,68 @@ generateMeasurementReports <- function(conn, dbms, cdmDatabaseSchema, resultsDat
                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
+  queryFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlFrequencyDistribution.sql",cdmVersion), 
+                                                                  packageName = "Achilles",
+                                                                  dbms = dbms,
+                                                                  cdm_database_schema = cdmDatabaseSchema,
+                                                                  results_database_schema = resultsDatabaseSchema,
+                                                                  vocab_database_schema = vocabDatabaseSchema
+  )
+  
+  queryMeasurementsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlMeasurementsByType.sql",cdmVersion),
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
+  )
+  
+  queryAgeAtFirstOccurrence <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlAgeAtFirstOccurrence.sql",cdmVersion),
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
+  )
+  
+  queryRecordsByUnit <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlRecordsByUnit.sql",cdmVersion),
+                                                          packageName = "Achilles",
+                                                          dbms = dbms,
+                                                          cdm_database_schema = cdmDatabaseSchema,
+                                                          results_database_schema = resultsDatabaseSchema,
+                                                          vocab_database_schema = vocabDatabaseSchema
+  )
+  
+  queryMeasurementValueDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlMeasurementValueDistribution.sql",cdmVersion),
+                                                                         packageName = "Achilles",
+                                                                         dbms = dbms,
+                                                                         cdm_database_schema = cdmDatabaseSchema,
+                                                                         results_database_schema = resultsDatabaseSchema,
+                                                                         vocab_database_schema = vocabDatabaseSchema
+  )
+  
   queryLowerLimitDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlLowerLimitDistribution.sql",cdmVersion),
-                                                        packageName = "Achilles",
-                                                        dbms = dbms,
-                                                        cdm_database_schema = cdmDatabaseSchema,
-                                                        results_database_schema = resultsDatabaseSchema,
-                                                        vocab_database_schema = vocabDatabaseSchema
+                                                                   packageName = "Achilles",
+                                                                   dbms = dbms,
+                                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                                   results_database_schema = resultsDatabaseSchema,
+                                                                   vocab_database_schema = vocabDatabaseSchema
   )
   
   queryUpperLimitDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlUpperLimitDistribution.sql",cdmVersion),
-                                                        packageName = "Achilles",
-                                                        dbms = dbms,
-                                                        cdm_database_schema = cdmDatabaseSchema,
-                                                        results_database_schema = resultsDatabaseSchema,
-                                                        vocab_database_schema = vocabDatabaseSchema
+                                                                   packageName = "Achilles",
+                                                                   dbms = dbms,
+                                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                                   results_database_schema = resultsDatabaseSchema,
+                                                                   vocab_database_schema = vocabDatabaseSchema
   )
   
   queryValuesRelativeToNorm <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/measurement/sqlValuesRelativeToNorm.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
   )
   
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
@@ -1859,11 +1859,11 @@ generateObservationTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDat
   progress = 0
   
   queryObservationTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlObservationTreemap.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
   dataObservationTreemap <- DatabaseConnector::querySql(conn,queryObservationTreemap) 
@@ -1902,93 +1902,93 @@ generateObservationReports <- function(conn, dbms, cdmDatabaseSchema, resultsDat
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
-  queryObsFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlFrequencyDistribution.sql",cdmVersion), 
-                                                          packageName = "Achilles",
-                                                          dbms = dbms,
-                                                          cdm_database_schema = cdmDatabaseSchema,
-                                                          results_database_schema = resultsDatabaseSchema,
-                                                          vocab_database_schema = vocabDatabaseSchema
-  )
+  # queryObsFrequencyDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlFrequencyDistribution.sql",cdmVersion), 
+  #                                                         packageName = "Achilles",
+  #                                                         dbms = dbms,
+  #                                                         cdm_database_schema = cdmDatabaseSchema,
+  #                                                         results_database_schema = resultsDatabaseSchema,
+  #                                                         vocab_database_schema = vocabDatabaseSchema
+  # )
   
   queryObservationsByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlObservationsByType.sql",cdmVersion),
-                                                    packageName = "Achilles",
-                                                    dbms = dbms,
-                                                    cdm_database_schema = cdmDatabaseSchema,
-                                                    results_database_schema = resultsDatabaseSchema,
-                                                    vocab_database_schema = vocabDatabaseSchema
+                                                               packageName = "Achilles",
+                                                               dbms = dbms,
+                                                               cdm_database_schema = cdmDatabaseSchema,
+                                                               results_database_schema = resultsDatabaseSchema,
+                                                               vocab_database_schema = vocabDatabaseSchema
   )
   
   queryAgeAtFirstOccurrence <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlAgeAtFirstOccurrence.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
   )
   
   if (cdmVersion == "4")
   {
-  
+    
     queryRecordsByUnit <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlRecordsByUnit.sql",cdmVersion),
-                                                 packageName = "Achilles",
-                                                 dbms = dbms,
-                                                 cdm_database_schema = cdmDatabaseSchema,
-                                                 results_database_schema = resultsDatabaseSchema,
-                                                 vocab_database_schema = vocabDatabaseSchema
+                                                            packageName = "Achilles",
+                                                            dbms = dbms,
+                                                            cdm_database_schema = cdmDatabaseSchema,
+                                                            results_database_schema = resultsDatabaseSchema,
+                                                            vocab_database_schema = vocabDatabaseSchema
     )
     
     queryObservationValueDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlObservationValueDistribution.sql",cdmVersion),
-                                                                packageName = "Achilles",
-                                                                dbms = dbms,
-                                                                cdm_database_schema = cdmDatabaseSchema,
-                                                                results_database_schema = resultsDatabaseSchema,
-                                                                vocab_database_schema = vocabDatabaseSchema
+                                                                           packageName = "Achilles",
+                                                                           dbms = dbms,
+                                                                           cdm_database_schema = cdmDatabaseSchema,
+                                                                           results_database_schema = resultsDatabaseSchema,
+                                                                           vocab_database_schema = vocabDatabaseSchema
     )
     
     queryLowerLimitDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlLowerLimitDistribution.sql",cdmVersion),
-                                                          packageName = "Achilles",
-                                                          dbms = dbms,
-                                                          cdm_database_schema = cdmDatabaseSchema,
-                                                          results_database_schema = resultsDatabaseSchema,
-                                                          vocab_database_schema = vocabDatabaseSchema
+                                                                     packageName = "Achilles",
+                                                                     dbms = dbms,
+                                                                     cdm_database_schema = cdmDatabaseSchema,
+                                                                     results_database_schema = resultsDatabaseSchema,
+                                                                     vocab_database_schema = vocabDatabaseSchema
     )
     
     queryUpperLimitDistribution <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlUpperLimitDistribution.sql",cdmVersion),
-                                                          packageName = "Achilles",
-                                                          dbms = dbms,
-                                                          cdm_database_schema = cdmDatabaseSchema,
-                                                          results_database_schema = resultsDatabaseSchema,
-                                                          vocab_database_schema = vocabDatabaseSchema
+                                                                     packageName = "Achilles",
+                                                                     dbms = dbms,
+                                                                     cdm_database_schema = cdmDatabaseSchema,
+                                                                     results_database_schema = resultsDatabaseSchema,
+                                                                     vocab_database_schema = vocabDatabaseSchema
     )
     
     queryValuesRelativeToNorm <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/observation/sqlValuesRelativeToNorm.sql",cdmVersion),
-                                                        packageName = "Achilles",
-                                                        dbms = dbms,
-                                                        cdm_database_schema = cdmDatabaseSchema,
-                                                        results_database_schema = resultsDatabaseSchema,
-                                                        vocab_database_schema = vocabDatabaseSchema
+                                                                   packageName = "Achilles",
+                                                                   dbms = dbms,
+                                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                                   results_database_schema = resultsDatabaseSchema,
+                                                                   vocab_database_schema = vocabDatabaseSchema
     )
   }  
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
   dataPrevalenceByMonth <- DatabaseConnector::querySql(conn,queryPrevalenceByMonth)  
   dataObservationsByType <- DatabaseConnector::querySql(conn,queryObservationsByType)    
   dataAgeAtFirstOccurrence <- DatabaseConnector::querySql(conn,queryAgeAtFirstOccurrence)
-  dataObsFrequencyDistribution <- DatabaseConnector::querySql(conn,queryObsFrequencyDistribution)
+  #dataObsFrequencyDistribution <- DatabaseConnector::querySql(conn,queryObsFrequencyDistribution)
   if (cdmVersion == "4")
   {
     dataRecordsByUnit <- DatabaseConnector::querySql(conn,queryRecordsByUnit)
@@ -2002,7 +2002,7 @@ generateObservationReports <- function(conn, dbms, cdmDatabaseSchema, resultsDat
     report <- {}
     report$PREVALENCE_BY_GENDER_AGE_YEAR <- dataPrevalenceByGenderAgeYear[dataPrevalenceByGenderAgeYear$CONCEPT_ID == concept_id,c(3,4,5,6)]    
     report$PREVALENCE_BY_MONTH <- dataPrevalenceByMonth[dataPrevalenceByMonth$CONCEPT_ID == concept_id,c(3,4)]
-    report$OBS_FREQUENCY_DISTRIBUTION <- dataObsFrequencyDistribution[dataObsFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
+    #report$OBS_FREQUENCY_DISTRIBUTION <- dataObsFrequencyDistribution[dataObsFrequencyDistribution$CONCEPT_ID == concept_id,c(3,4)]
     report$OBSERVATIONS_BY_TYPE <- dataObservationsByType[dataObservationsByType$OBSERVATION_CONCEPT_ID == concept_id,c(4,5)]
     report$AGE_AT_FIRST_OCCURRENCE <- dataAgeAtFirstOccurrence[dataAgeAtFirstOccurrence$CONCEPT_ID == concept_id,c(2,3,4,5,6,7,8,9)]
     
@@ -2014,7 +2014,7 @@ generateObservationReports <- function(conn, dbms, cdmDatabaseSchema, resultsDat
       report$UPPER_LIMIT_DISTRIBUTION <- dataUpperLimitDistribution[dataUpperLimitDistribution$CONCEPT_ID == concept_id,c(2,3,4,5,6,7,8,9)]
       report$VALUES_RELATIVE_TO_NORM <- dataValuesRelativeToNorm[dataValuesRelativeToNorm$OBSERVATION_CONCEPT_ID == concept_id,c(4,5)]
     }
-
+    
     filename <- paste(outputPath, "/observations/observation_" , concept_id , ".json", sep='')  
     
     write(rjson::toJSON(report,method="C"),filename)  
@@ -2039,11 +2039,11 @@ generateVisitTreemap <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   progress = 0
   
   queryVisitTreemap <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/visit/sqlVisitTreemap.sql",cdmVersion),
-                                              packageName = "Achilles",
-                                              dbms = dbms,
-                                              cdm_database_schema = cdmDatabaseSchema,
-                                              results_database_schema = resultsDatabaseSchema,
-                                              vocab_database_schema = vocabDatabaseSchema
+                                                         packageName = "Achilles",
+                                                         dbms = dbms,
+                                                         cdm_database_schema = cdmDatabaseSchema,
+                                                         results_database_schema = resultsDatabaseSchema,
+                                                         vocab_database_schema = vocabDatabaseSchema
   )
   
   dataVisitTreemap <- DatabaseConnector::querySql(conn,queryVisitTreemap) 
@@ -2080,35 +2080,35 @@ generateVisitReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   progress = 0
   
   queryPrevalenceByGenderAgeYear <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/visit/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                                           packageName = "Achilles",
-                                                           dbms = dbms,
-                                                           cdm_database_schema = cdmDatabaseSchema,
-                                                           results_database_schema = resultsDatabaseSchema,
-                                                           vocab_database_schema = vocabDatabaseSchema
+                                                                      packageName = "Achilles",
+                                                                      dbms = dbms,
+                                                                      cdm_database_schema = cdmDatabaseSchema,
+                                                                      results_database_schema = resultsDatabaseSchema,
+                                                                      vocab_database_schema = vocabDatabaseSchema
   )
   
   queryPrevalenceByMonth <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/visit/sqlPrevalenceByMonth.sql",cdmVersion),
-                                                   packageName = "Achilles",
-                                                   dbms = dbms,
-                                                   cdm_database_schema = cdmDatabaseSchema,
-                                                   results_database_schema = resultsDatabaseSchema,
-                                                   vocab_database_schema = vocabDatabaseSchema
+                                                              packageName = "Achilles",
+                                                              dbms = dbms,
+                                                              cdm_database_schema = cdmDatabaseSchema,
+                                                              results_database_schema = resultsDatabaseSchema,
+                                                              vocab_database_schema = vocabDatabaseSchema
   )
   
   queryVisitDurationByType <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/visit/sqlVisitDurationByType.sql",cdmVersion),
-                                                     packageName = "Achilles",
-                                                     dbms = dbms,
-                                                     cdm_database_schema = cdmDatabaseSchema,
-                                                     results_database_schema = resultsDatabaseSchema,
-                                                     vocab_database_schema = vocabDatabaseSchema
+                                                                packageName = "Achilles",
+                                                                dbms = dbms,
+                                                                cdm_database_schema = cdmDatabaseSchema,
+                                                                results_database_schema = resultsDatabaseSchema,
+                                                                vocab_database_schema = vocabDatabaseSchema
   )
   
   queryAgeAtFirstOccurrence <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/visit/sqlAgeAtFirstOccurrence.sql",cdmVersion),
-                                                      packageName = "Achilles",
-                                                      dbms = dbms,
-                                                      cdm_database_schema = cdmDatabaseSchema,
-                                                      results_database_schema = resultsDatabaseSchema,
-                                                      vocab_database_schema = vocabDatabaseSchema
+                                                                 packageName = "Achilles",
+                                                                 dbms = dbms,
+                                                                 cdm_database_schema = cdmDatabaseSchema,
+                                                                 results_database_schema = resultsDatabaseSchema,
+                                                                 vocab_database_schema = vocabDatabaseSchema
   )
   
   dataPrevalenceByGenderAgeYear <- DatabaseConnector::querySql(conn,queryPrevalenceByGenderAgeYear) 
@@ -2153,11 +2153,11 @@ generateDeathReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   #   e.	series:  male,  female
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/death/sqlPrevalenceByGenderAgeYear.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   prevalenceByGenderAgeYearData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -2172,11 +2172,11 @@ generateDeathReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # d.	Comment:  plot to show seasonality
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/death/sqlPrevalenceByMonth.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   prevalenceByMonthData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -2190,11 +2190,11 @@ generateDeathReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	value:  % of records
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/death/sqlDeathByType.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   deathByTypeData <- DatabaseConnector::querySql(conn,renderedSql)
@@ -2208,11 +2208,11 @@ generateDeathReports <- function(conn, dbms, cdmDatabaseSchema, resultsDatabaseS
   # c.	Values: Min/25%/Median/95%/Max  as age at death
   
   renderedSql <- SqlRender::loadRenderTranslateSql(sqlFilename = addCdmVersionPath("/death/sqlAgeAtDeath.sql",cdmVersion),
-                                        packageName = "Achilles",
-                                        dbms = dbms,
-                                        cdm_database_schema = cdmDatabaseSchema,
-                                        results_database_schema = resultsDatabaseSchema,
-                                        vocab_database_schema = vocabDatabaseSchema
+                                                   packageName = "Achilles",
+                                                   dbms = dbms,
+                                                   cdm_database_schema = cdmDatabaseSchema,
+                                                   results_database_schema = resultsDatabaseSchema,
+                                                   vocab_database_schema = vocabDatabaseSchema
   )  
   
   ageAtDeathData <- DatabaseConnector::querySql(conn,renderedSql)
