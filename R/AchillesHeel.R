@@ -1,6 +1,6 @@
 # @file AchillesHeel
 #
-# Copyright 2019 Observational Health Data Sciences and Informatics
+# Copyright 2020 Observational Health Data Sciences and Informatics
 #
 # This file is part of Achilles
 # 
@@ -82,6 +82,18 @@ achillesHeel <- function(connectionDetails,
                          sqlOnly = FALSE,
                          verboseMode = TRUE) {
   
+  # Establish folder paths --------------------------------------------------------------------------------------------------------
+  
+  errorPath <- file.path(outputFolder, "errors", "achillesHeel")
+  logPath <- file.path(outputFolder, "logs")
+  pathsToCreate <- c(outputFolder, logPath, errorPath)
+  
+  for (path in pathsToCreate) {
+    if (!dir.exists(path)) {
+      dir.create(path = path, recursive = TRUE)
+    }
+  }
+  
   # Try to get CDM Version if not provided ----------------------------------------------------------------------------------------
   
   if (missing(cdmVersion)) {
@@ -97,24 +109,18 @@ achillesHeel <- function(connectionDetails,
          See Achilles Git Repo to find v4 compatible version of Achilles.")
   }
   
-  # Establish folder paths --------------------------------------------------------------------------------------------------------
-  
-  if (!dir.exists(outputFolder)) {
-    dir.create(path = outputFolder, recursive = TRUE)
-  }
-  
   heelSql <- c()
   
   # Log execution --------------------------------------------------------------------------------------------------------------------
   
-  unlink(file.path(outputFolder, "log_achillesHeel.txt"))
+  unlink(file.path(logPath, "log_achillesHeel.txt"))
   if (verboseMode) {
     appenders <- list(ParallelLogger::createConsoleAppender(),
                       ParallelLogger::createFileAppender(layout = ParallelLogger::layoutParallel, 
-                                                         fileName = file.path(outputFolder, "log_achillesHeel.txt")))    
+                                                         fileName = file.path(logPath, "log_achillesHeel.txt")))    
   } else {
     appenders <- list(ParallelLogger::createFileAppender(layout = ParallelLogger::layoutParallel, 
-                                                         fileName = file.path(outputFolder, "log_achillesHeel.txt")))
+                                                         fileName = file.path(logPath, "log_achillesHeel.txt")))
   }
   logger <- ParallelLogger::createLogger(name = "achillesHeel",
                                          threshold = "INFO",
@@ -197,12 +203,13 @@ achillesHeel <- function(connectionDetails,
                 outputFolder = outputFolder)
   })
   
-  heelSql <- c(heelSql, parallelSqls)
+  heelSql <- c(heelSql, lapply(parallelSqls, function(p) p$sql))
   
   if (!sqlOnly) {
     if (numThreads == 1) {
-      for (sql in parallelSqls) {
-        DatabaseConnector::executeSql(connection = connection, sql = sql)
+      for (parallelSql in parallelSqls) {
+        DatabaseConnector::executeSql(connection = connection, sql = parallelSql$sql,
+                                      errorReportFile = sprintf("%s/parallelHeels_%s.txt", errorPath, parallelSql$heelName))
       }
     } else {
       cluster <- ParallelLogger::makeCluster(numberOfThreads = numThreads, singleThreadToMain = TRUE)
@@ -210,7 +217,8 @@ achillesHeel <- function(connectionDetails,
                                          x = parallelSqls, 
                                          function(sql) {
                                            connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
-                                           DatabaseConnector::executeSql(connection = connection, sql = sql)
+                                           DatabaseConnector::executeSql(connection = connection, sql = parallelSql$sql,
+                                                                         errorReportFile = sprintf("%s/parallelHeels_%s.txt", errorPath, parallelSql$heelName))
                                            DatabaseConnector::disconnect(connection = connection)
                                          })
       ParallelLogger::stopCluster(cluster = cluster)
@@ -344,7 +352,8 @@ achillesHeel <- function(connectionDetails,
     heelSql <- c(heelSql, sql)
     
     if (!sqlOnly) {
-      DatabaseConnector::executeSql(connection = connection, sql = sql)
+      DatabaseConnector::executeSql(connection = connection, sql = sql,
+                                    errorReportFile = sprintf("%s/errors/serial_%d.txt", as.integer(row$rule_id)))
     }
   }
   
@@ -434,21 +443,22 @@ achillesHeel <- function(connectionDetails,
                         tempHeelPrefix, 
                         numThreads,
                         outputFolder) {
-  
-    SqlRender::loadRenderTranslateSql(sqlFilename = gsub(pattern = 
-                                                                file.path(system.file(package = "Achilles"), 
-                                                                          "sql/sql_server/"), 
-                                                              replacement = "", x = heelFile),
-                                           packageName = "Achilles",
-                                           dbms = connectionDetails$dbms,
-                                           warnOnMissingParameters = FALSE,
-                                           cdmDatabaseSchema = cdmDatabaseSchema,
-                                           resultsDatabaseSchema = resultsDatabaseSchema,
-                                           scratchDatabaseSchema = scratchDatabaseSchema,
-                                           vocabDatabaseSchema = vocabDatabaseSchema,
-                                           oracleTempSchema = oracleTempSchema,
-                                           schemaDelim = schemaDelim,
-                                           tempHeelPrefix = tempHeelPrefix,
-                                           heelName = gsub(pattern = ".sql", replacement = "", x = basename(heelFile)))
-  
+  list(
+    heelName =  tools::file_path_sans_ext(basename(heelFile)),
+    sql =   SqlRender::loadRenderTranslateSql(sqlFilename = gsub(pattern = 
+                                                                   file.path(system.file(package = "Achilles"), 
+                                                                             "sql/sql_server/"), 
+                                                                 replacement = "", x = heelFile),
+                                              packageName = "Achilles",
+                                              dbms = connectionDetails$dbms,
+                                              warnOnMissingParameters = FALSE,
+                                              cdmDatabaseSchema = cdmDatabaseSchema,
+                                              resultsDatabaseSchema = resultsDatabaseSchema,
+                                              scratchDatabaseSchema = scratchDatabaseSchema,
+                                              vocabDatabaseSchema = vocabDatabaseSchema,
+                                              oracleTempSchema = oracleTempSchema,
+                                              schemaDelim = schemaDelim,
+                                              tempHeelPrefix = tempHeelPrefix,
+                                              heelName = gsub(pattern = ".sql", replacement = "", x = basename(heelFile)))
+  )
 }

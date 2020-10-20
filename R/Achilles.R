@@ -1,6 +1,6 @@
 # @file Achilles
 #
-# Copyright 2019 Observational Health Data Sciences and Informatics
+# Copyright 2020 Observational Health Data Sciences and Informatics
 #
 # This file is part of Achilles
 # 
@@ -74,42 +74,54 @@
 #'                                             outputFolder = "output")
 #'                                         }
 #' @export
-achilles <- function (connectionDetails, 
-                      cdmDatabaseSchema,
-                      resultsDatabaseSchema = cdmDatabaseSchema, 
-                      scratchDatabaseSchema = resultsDatabaseSchema,
-                      vocabDatabaseSchema = cdmDatabaseSchema,
-                      oracleTempSchema = resultsDatabaseSchema,
-                      sourceName = "", 
-                      analysisIds, 
-                      createTable = TRUE,
-                      smallCellCount = 5, 
-                      cdmVersion = "5", 
-                      runHeel = TRUE,
-                      validateSchema = FALSE,
-                      runCostAnalysis = FALSE,
-                      createIndices = TRUE,
-                      numThreads = 1,
-                      tempAchillesPrefix = "tmpach",
-                      dropScratchTables = TRUE,
-                      sqlOnly = FALSE,
-                      outputFolder = "output",
-                      verboseMode = TRUE,
-                      optimizeAtlasCache = FALSE) {
+achilles <- function(connectionDetails, 
+                     cdmDatabaseSchema,
+                     resultsDatabaseSchema = cdmDatabaseSchema, 
+                     scratchDatabaseSchema = resultsDatabaseSchema,
+                     vocabDatabaseSchema = cdmDatabaseSchema,
+                     oracleTempSchema = resultsDatabaseSchema,
+                     sourceName = "", 
+                     analysisIds, 
+                     createTable = TRUE,
+                     smallCellCount = 5, 
+                     cdmVersion = "5", 
+                     runHeel = TRUE,
+                     validateSchema = FALSE,
+                     runCostAnalysis = FALSE,
+                     createIndices = TRUE,
+                     numThreads = 1,
+                     tempAchillesPrefix = "tmpach",
+                     dropScratchTables = TRUE,
+                     sqlOnly = FALSE,
+                     outputFolder = "output",
+                     verboseMode = TRUE,
+                     optimizeAtlasCache = FALSE) {
   
   achillesSql <- c()
   
+  # Establish folder paths --------------------------------------------------------------------------------------------------------
+  
+  errorPath <- file.path(outputFolder, "errors", "achilles")
+  logPath <- file.path(outputFolder, "logs")
+  pathsToCreate <- c(outputFolder, logPath, errorPath)
+  
+  for (path in pathsToCreate) {
+    if (!dir.exists(path)) {
+      dir.create(path = path, recursive = TRUE)
+    }
+  }
+  
   # Log execution -----------------------------------------------------------------------------------------------------------------
   ParallelLogger::clearLoggers()
-  unlink(file.path(outputFolder, "log_achilles.txt"))
+  unlink(file.path(logPath, "log_achilles.txt"))
   
   if (verboseMode) {
     appenders <- list(ParallelLogger::createConsoleAppender(),
                       ParallelLogger::createFileAppender(layout = ParallelLogger::layoutParallel, 
-                                                         fileName = file.path(outputFolder, "log_achilles.txt")))    
+                                                         fileName = file.path(logPath, "log_achilles.txt")))    
   } else {
     appenders <- list(ParallelLogger::createFileAppender(layout = ParallelLogger::layoutParallel, 
-                                                         fileName = file.path(outputFolder, "log_achilles.txt")))
+                                                         fileName = file.path(logPath, "log_achilles.txt")))
   }
   
   logger <- ParallelLogger::createLogger(name = "achilles",
@@ -130,12 +142,6 @@ achilles <- function (connectionDetails,
   if (compareVersion(a = as.character(cdmVersion), b = "5") < 0) {
     stop("Error: Invalid CDM Version number; this function is only for v5 and above. 
          See Achilles Git Repo to find v4 compatible version of Achilles.")
-  }
-  
-  # Establish folder paths --------------------------------------------------------------------------------------------------------
-  
-  if (!dir.exists(outputFolder)) {
-    dir.create(path = outputFolder, recursive = TRUE)
   }
   
   # (optional) Validate CDM schema --------------------------------------------------------------------------------------------------
@@ -181,10 +187,11 @@ achilles <- function (connectionDetails,
   sql <- SqlRender::translate(sql = sql, targetDialect = connectionDetails$dbms)
   
   cohortTableExists <- tryCatch({
-    dummy <- DatabaseConnector::querySql(connection = connection, sql = sql, errorReportFile = "cohortTableNotExist.sql")
+    dummy <- DatabaseConnector::querySql(connection = connection, sql = sql, 
+                                         errorReportFile = sprintf("%s/cohortTableNotExist.txt", errorPath))
     TRUE
   }, error = function(e) {
-    unlink("cohortTableNotExist.sql")
+    unlink(sprintf("%s/cohortTableNotExist.txt", errorPath))
     ParallelLogger::logWarn("Cohort table not found, will skip analyses 1700 and 1701")
     FALSE
   })
@@ -252,7 +259,8 @@ achilles <- function (connectionDetails,
   if (!createTable) {
     .deleteExistingResults(connectionDetails = connectionDetails,
                            resultsDatabaseSchema = resultsDatabaseSchema,
-                           analysisDetails = analysisDetails)  
+                           analysisDetails = analysisDetails,
+                           outputFolder = outputFolder)  
   }
   
   # Create analysis table -------------------------------------------------------------
@@ -284,10 +292,12 @@ achilles <- function (connectionDetails,
     if (!sqlOnly) {
       if (numThreads == 1) { 
         # connection is already alive
-        DatabaseConnector::executeSql(connection = connection, sql = sql)
+        DatabaseConnector::executeSql(connection = connection, sql = sql, 
+                                      errorReportFile = sprintf("%s/createAnalysisTable.txt", errorPath))
       } else {
         connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
-        DatabaseConnector::executeSql(connection = connection, sql = sql)
+        DatabaseConnector::executeSql(connection = connection, sql = sql,
+                                      errorReportFile = sprintf("%s/createAnalysisTable.txt", errorPath))
         DatabaseConnector::disconnect(connection = connection)
       }
     }
@@ -357,7 +367,8 @@ achilles <- function (connectionDetails,
           start <- Sys.time()
           ParallelLogger::logInfo(sprintf("[Raw Cost] [START] %s", 
                                           rawCostSql$analysisId))
-          DatabaseConnector::executeSql(connection = connection, sql = rawCostSql$sql)
+          DatabaseConnector::executeSql(connection = connection, sql = rawCostSql$sql,
+                                        errorReportFile = sprintf("%s/rawCost_%s.txt", errorPath, rawCostSql$analysisId))
           delta <- Sys.time() - start
           ParallelLogger::logInfo(sprintf("[Raw Cost] [COMPLETE] %s (%f %s)", 
                                           rawCostSql$analysisId, 
@@ -374,7 +385,8 @@ achilles <- function (connectionDetails,
                                                ParallelLogger::logInfo(sprintf("[Raw Cost] [START] %s", rawCostSql$analysisId))
                                                connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
                                                on.exit(DatabaseConnector::disconnect(connection = connection))
-                                               DatabaseConnector::executeSql(connection = connection, sql = rawCostSql$sql)
+                                               DatabaseConnector::executeSql(connection = connection, sql = rawCostSql$sql,
+                                                                             errorReportFile = sprintf("%s/rawCost_%s.txt", errorPath, rawCostSql$analysisId))
                                                delta <- Sys.time() - start
                                                ParallelLogger::logInfo(sprintf("[Raw Cost] [COMPLETE] %s (%f %s)", 
                                                                                rawCostSql$analysisId, 
@@ -438,7 +450,8 @@ achilles <- function (connectionDetails,
           start <- Sys.time()
           ParallelLogger::logInfo(sprintf("[Cost Analysis] [START] %d", 
                                           as.integer(distCostAnalysisSql$analysisId)))
-          DatabaseConnector::executeSql(connection = connection, sql = distCostAnalysisSql$sql)
+          DatabaseConnector::executeSql(connection = connection, sql = distCostAnalysisSql$sql,
+                                        errorReportFile = sprintf("%s/distributedCost_%s.txt", errorPath, distCostAnalysisSql$analysisId))
           delta <- Sys.time() - start
           ParallelLogger::logInfo(sprintf("[Cost Analysis] [COMPLETE] %d (%f %s)", 
                                           as.integer(distCostAnalysisSql$analysisId), 
@@ -456,7 +469,8 @@ achilles <- function (connectionDetails,
                                                                              as.integer(distCostAnalysisSql$analysisId)))
                                              connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
                                              on.exit(DatabaseConnector::disconnect(connection = connection))
-                                             DatabaseConnector::executeSql(connection = connection, sql = distCostAnalysisSql$sql)
+                                             DatabaseConnector::executeSql(connection = connection, sql = distCostAnalysisSql$sql,
+                                                                           errorReportFile = sprintf("%s/distributedCost_%s.txt", errorPath, distCostAnalysisSql$analysisId))
                                              delta <- Sys.time() - start
                                              ParallelLogger::logInfo(sprintf("[Cost Analysis] [COMPLETE] %d (%f %s)", 
                                                                              as.integer(distCostAnalysisSql$analysisId), 
@@ -504,7 +518,10 @@ achilles <- function (connectionDetails,
         ParallelLogger::logInfo(sprintf("Analysis %d (%s) -- START", mainSql$analysisId, 
                                         analysisDetails$ANALYSIS_NAME[analysisDetails$ANALYSIS_ID == mainSql$analysisId]))
         tryCatch({
-          DatabaseConnector::executeSql(connection = connection, sql = mainSql$sql)
+          DatabaseConnector::executeSql(connection = connection, sql = mainSql$sql, 
+                                        errorReportFile = sprintf("%s/mainAnalysis_%s.txt", 
+                                                                  errorPath,
+                                                                  as.integer(mainSql$analysisId)))
           delta <- Sys.time() - start
           ParallelLogger::logInfo(sprintf("[Main Analysis] [COMPLETE] %d (%f %s)", 
                                           as.integer(mainSql$analysisId), 
@@ -526,7 +543,10 @@ achilles <- function (connectionDetails,
                                                                            as.integer(mainSql$analysisId), 
                                                                            analysisDetails$ANALYSIS_NAME[analysisDetails$ANALYSIS_ID == mainSql$analysisId]))
                                            tryCatch({
-                                             DatabaseConnector::executeSql(connection = connection, sql = mainSql$sql)
+                                             DatabaseConnector::executeSql(connection = connection, sql = mainSql$sql,
+                                                                           errorReportFile = sprintf("%s/mainAnalysis_%s.txt", 
+                                                                                                     errorPath,
+                                                                                                     as.integer(mainSql$analysisId)))
                                              delta <- Sys.time() - start
                                              ParallelLogger::logInfo(sprintf("[Main Analysis] [COMPLETE] %d (%f %s)", 
                                                                              as.integer(mainSql$analysisId), 
@@ -541,6 +561,14 @@ achilles <- function (connectionDetails,
       
       ParallelLogger::stopCluster(cluster = cluster)
     }
+  }
+  
+  # Verify staging tables are completed -------------------------------------------------------------------------------------------------------
+  
+  if (length(list.files(errorPath)) > 0) {
+    stagingTableError <- sprintf("[Staging Table Merging] [ERROR] Staging tables did not execute successfully. Please check error files and re-run.")
+    ParallelLogger::logFatal(stagingTableError)
+    stop(stagingTableError)
   }
   
   # Merge scratch tables into final analysis tables -------------------------------------------------------------------------------------------
@@ -566,7 +594,7 @@ achilles <- function (connectionDetails,
                                includeRawCost = ifelse(table$detailType == "results_dist", runCostAnalysis, FALSE))
   })
   
-  achillesSql <- c(achillesSql, mergeSqls)
+  achillesSql <- c(achillesSql, lapply(mergeSqls, function(m) m$sql))
 
   if (!sqlOnly) {
     
@@ -574,11 +602,12 @@ achilles <- function (connectionDetails,
     
     if (numThreads == 1) {
       tryCatch({
-        for (sql in mergeSqls) {
-          DatabaseConnector::executeSql(connection = connection, sql = sql)
+        for (mergeSql in mergeSqls) {
+          DatabaseConnector::executeSql(connection = connection, sql = mergeSql$sql,
+                                        errorReportFile = sprintf("%s/mergeTables_%s.txt", errorPath, mergeSql$table))
         }
       }, error = function(e) {
-          ParallelLogger::logError(sprintf("Merging scratch Achilles tables [ERROR] (%s)",
+          ParallelLogger::logError(sprintf("[Staging Table Merging] [ERROR] (%s)",
             e))
       })
     } else {
@@ -589,10 +618,11 @@ achilles <- function (connectionDetails,
                                               function(sql) {
                                                 connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
                                                 on.exit(DatabaseConnector::disconnect(connection = connection))
-                                                DatabaseConnector::executeSql(connection = connection, sql = sql)
+                                                DatabaseConnector::executeSql(connection = connection, sql = sql,
+                                                                              errorReportFile = sprintf("%s/mergeTables_%s.txt", errorPath, mergeSql$table))
                                               })
       }, error = function(e) {
-        ParallelLogger::logError(sprintf("Merging scratch Achilles tables (merging scratch Achilles tables) [ERROR] (%s)",
+        ParallelLogger::logError(sprintf("[Staging Table Merging] [ERROR] (%s)",
                                          e))
       })
       ParallelLogger::stopCluster(cluster = cluster)
@@ -820,7 +850,7 @@ validateSchema <- function(connectionDetails,
   
   # Log execution --------------------------------------------------------------------------------------------------------------------
   
-  unlink(file.path(outputFolder, "log_validateSchema.txt"))
+  unlink(file.path(outputFolder, "logs", "log_validateSchema.txt"))
   if (verboseMode) {
     appenders <- list(ParallelLogger::createConsoleAppender(),
                       ParallelLogger::createFileAppender(layout = ParallelLogger::layoutParallel, 
@@ -856,7 +886,8 @@ validateSchema <- function(connectionDetails,
     SqlRender::writeSql(sql = sql, targetFile = file.path(outputFolder, "ValidateSchema.sql")) 
   } else {
     connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
-    tables <- DatabaseConnector::querySql(connection = connection, sql = sql)
+    tables <- DatabaseConnector::querySql(connection = connection, sql = sql, 
+                                          errorReportFile = sprintf("%s/errors/achilles/validateSchema.txt", outputFolder))
     ParallelLogger::logInfo("CDM Schema is valid")
     DatabaseConnector::disconnect(connection = connection)
   }
@@ -1236,7 +1267,8 @@ optimizeAtlasCache <- function(connectionDetails,
     detailSqls <- c(detailSqls, benchmarkSql)
   }
   
-  SqlRender::loadRenderTranslateSql(sqlFilename = "analyses/merge_achilles_tables.sql",
+  list(table = resultsTable,
+       sql = SqlRender::loadRenderTranslateSql(sqlFilename = "analyses/merge_achilles_tables.sql",
                                     packageName = "Achilles",
                                     dbms = connectionDetails$dbms,
                                     warnOnMissingParameters = FALSE,
@@ -1246,7 +1278,7 @@ optimizeAtlasCache <- function(connectionDetails,
                                     detailType = resultsTable$detailType,
                                     detailSqls = paste(detailSqls, collapse = " \nunion all\n "),
                                     fieldNames = paste(resultsTable$schema$FIELD_NAME, collapse = ", "),
-                                    smallCellCount = smallCellCount)
+                                    smallCellCount = smallCellCount))
 }
 
 .getSourceName <- function(connectionDetails,
@@ -1269,7 +1301,8 @@ optimizeAtlasCache <- function(connectionDetails,
 
 .deleteExistingResults <- function(connectionDetails,
                                    resultsDatabaseSchema,
-                                   analysisDetails) {
+                                   analysisDetails,
+                                   outputFolder) {
   
   
   resultIds <- analysisDetails$ANALYSIS_ID[analysisDetails$DISTRIBUTION == 0]
@@ -1283,7 +1316,8 @@ optimizeAtlasCache <- function(connectionDetails,
 
     connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
     on.exit(DatabaseConnector::disconnect(connection = connection))
-    DatabaseConnector::executeSql(connection = connection, sql = sql)
+    DatabaseConnector::executeSql(connection = connection, sql = sql, 
+                                  errorReportFile = sprintf("%s/deleteExistingResults.txt", errorPath))
   }
   
   if (length(distIds) > 0) {
