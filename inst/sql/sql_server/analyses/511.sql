@@ -1,8 +1,23 @@
--- 511	Distribution of time from death to last condition
+/*********
+Achilles Analysis #@analysisId:
+- Analysis Name = @analysisName
+
+Parameters used in this template:
+- cdmDatabaseSchema = @cdmDatabaseSchema
+- scratchDatabaseSchema = @scratchDatabaseSchema
+- oracleTempSchema = @oracleTempSchema
+- schemaDelim = @schemaDelim
+- tempAchillesPrefix = @tempAchillesPrefix
+**********/
 
 --HINT DISTRIBUTE_ON_KEY(count_value)
-select 511 as analysis_id,
-	cast(null as varchar(255)) as stratum_1, cast(null as varchar(255)) as stratum_2, cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5,
+select 
+  @analysisId as analysis_id,
+	cast(null as varchar(255)) as stratum_1,
+	cast(null as varchar(255)) as stratum_2, 
+	cast(null as varchar(255)) as stratum_3, 
+	cast(null as varchar(255)) as stratum_4, 
+	cast(null as varchar(255)) as stratum_5,
 	COUNT_BIG(count_value) as count_value,
 	min(count_value) as min_value,
 	max(count_value) as max_value,
@@ -13,15 +28,18 @@ select 511 as analysis_id,
 	max(case when p1<=0.25 then count_value else -9999 end) as p25_value,
 	max(case when p1<=0.75 then count_value else -9999 end) as p75_value,
 	max(case when p1<=0.90 then count_value else -9999 end) as p90_value
-into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_dist_511
+into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_dist_@analysisId
 from
 (
-select datediff(dd,d1.death_date, t0.max_date) as count_value,
-	1.0*(row_number() over (order by datediff(dd,d1.death_date, t0.max_date)))/(COUNT_BIG(*) over () + 1) as p1
-from @cdmDatabaseSchema.death d1
-	inner join
+  select 
+    datediff(dd,d1.death_date, t0.max_date) as count_value,
+	  1.0*(row_number() over (order by datediff(dd,d1.death_date, t0.max_date)))/(COUNT_BIG(*) over () + 1) as p1
+  from @cdmDatabaseSchema.death d1
+	join
 	(
-		select person_id, max(condition_start_date) as max_date
+		select 
+		  person_id, 
+		  max(condition_start_date) as max_date
 		from @cdmDatabaseSchema.condition_occurrence
 		group by person_id
 	) t0 on d1.person_id = t0.person_id

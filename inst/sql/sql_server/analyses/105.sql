@@ -1,19 +1,35 @@
--- 105	Length of observation (days) of first observation period
+/*********
+Achilles Analysis #@analysisId:
+- Analysis Name = @analysisName
+
+Parameters used in this template:
+- cdmDatabaseSchema = @cdmDatabaseSchema
+- scratchDatabaseSchema = @scratchDatabaseSchema
+- oracleTempSchema = @oracleTempSchema
+- schemaDelim = @schemaDelim
+- tempAchillesPrefix = @tempAchillesPrefix
+**********/
 
 --HINT DISTRIBUTE_ON_KEY(count_value)
-select count_value, rn 
-into #tempObs_105
+select 
+  count_value, 
+  rn 
+into #tempObs_@analysisId
 FROM
 (
-  select DATEDIFF(dd,op.observation_period_start_date, op.observation_period_end_date) as count_value,
+  select 
+    DATEDIFF(dd,op.observation_period_start_date, op.observation_period_end_date) as count_value,
 	  ROW_NUMBER() over (PARTITION by op.person_id order by op.observation_period_start_date asc) as rn
   from @cdmDatabaseSchema.observation_period op
 ) A
 where rn = 1;
 	
-select count_value, count_big(*) as total, row_number() over (order by count_value) as rn
-into #statsView_105
-FROM #tempObs_105
+select 
+  count_value, 
+  count_big(*) as total, 
+  row_number() over (order by count_value) as rn
+into #statsView_@analysisId
+FROM #tempObs_@analysisId
 group by count_value;
 
 --HINT DISTRIBUTE_ON_KEY(count_value)
@@ -51,9 +67,23 @@ GROUP BY o.total, o.min_value, o.max_value, o.avg_value, o.stdev_value
 ;
 
 --HINT DISTRIBUTE_ON_KEY(count_value)
-select analysis_id,
-cast(null as varchar(255)) as stratum_1, cast(null as varchar(255)) as stratum_2, cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5, count_value,
-min_value, max_value, avg_value, stdev_value, median_value, p10_value, p25_value, p75_value, p90_value
+select 
+  analysis_id,
+  cast(null as varchar(255)) as stratum_1, 
+  cast(null as varchar(255)) as stratum_2, 
+  cast(null as varchar(255)) as stratum_3, 
+  cast(null as varchar(255)) as stratum_4, 
+  cast(null as varchar(255)) as stratum_5, 
+  count_value,
+  min_value, 
+  max_value, 
+  avg_value, 
+  stdev_value, 
+  median_value, 
+  p10_value, 
+  p25_value, 
+  p75_value,
+  p90_value
 into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_dist_105
 from #tempResults_105
 ;

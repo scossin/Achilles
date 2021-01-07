@@ -1,10 +1,25 @@
--- 115	Number of persons with observation period end < start
+/*********
+Achilles Analysis #@analysisId:
+- Analysis Name = @analysisName
 
-select 115 as analysis_id,  
-	cast(null as varchar(255)) as stratum_1, cast(null as varchar(255)) as stratum_2, cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5,
+Parameters used in this template:
+- cdmDatabaseSchema = @cdmDatabaseSchema
+- scratchDatabaseSchema = @scratchDatabaseSchema
+- oracleTempSchema = @oracleTempSchema
+- schemaDelim = @schemaDelim
+- tempAchillesPrefix = @tempAchillesPrefix
+**********/
+
+--HINT DISTRIBUTE_ON_KEY(stratum_1)
+select 
+  @analysisId as analysis_id,  
+	cast(null as varchar(255)) as stratum_1, 
+	cast(null as varchar(255)) as stratum_2,
+	cast(null as varchar(255)) as stratum_3, 
+	cast(null as varchar(255)) as stratum_4, 
+	cast(null as varchar(255)) as stratum_5,
 	COUNT_BIG(op1.PERSON_ID) as count_value
-into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_115
-from
-	@cdmDatabaseSchema.observation_period op1
+into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_@analysisId
+from @cdmDatabaseSchema.observation_period op1
 where op1.observation_period_end_date < op1.observation_period_start_date
 ;

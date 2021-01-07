@@ -1,12 +1,27 @@
--- 1813	Number of observation records with invalid visit_id
+/*********
+Achilles Analysis #@analysisId:
+- Analysis Name = @analysisName
+
+Parameters used in this template:
+- cdmDatabaseSchema = @cdmDatabaseSchema
+- scratchDatabaseSchema = @scratchDatabaseSchema
+- oracleTempSchema = @oracleTempSchema
+- schemaDelim = @schemaDelim
+- tempAchillesPrefix = @tempAchillesPrefix
+**********/
 
 
-select 1813 as analysis_id, 
-cast(null as varchar(255)) as stratum_1, cast(null as varchar(255)) as stratum_2, cast(null as varchar(255)) as stratum_3, cast(null as varchar(255)) as stratum_4, cast(null as varchar(255)) as stratum_5,
-COUNT_BIG(m.PERSON_ID) as count_value
-into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_1813
+select 
+  @analysisId as analysis_id, 
+  cast(null as varchar(255)) as stratum_1,
+  cast(null as varchar(255)) as stratum_2, 
+  cast(null as varchar(255)) as stratum_3, 
+  cast(null as varchar(255)) as stratum_4, 
+  cast(null as varchar(255)) as stratum_5,
+  COUNT_BIG(m.PERSON_ID) as count_value
+into @scratchDatabaseSchema@schemaDelim@tempAchillesPrefix_@analysisId
 from @cdmDatabaseSchema.measurement m
-	left join @cdmDatabaseSchema.visit_occurrence vo on m.visit_occurrence_id = vo.visit_occurrence_id
+left join @cdmDatabaseSchema.visit_occurrence vo on m.visit_occurrence_id = vo.visit_occurrence_id
 where m.visit_occurrence_id is not null
 	and vo.visit_occurrence_id is null
 ;
