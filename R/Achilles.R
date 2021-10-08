@@ -377,6 +377,10 @@ achilles <- function(connectionDetails,
       )
     })
     
+    
+    # fix https://github.com/OHDSI/Achilles/issues/598 
+    analysesSqls <- sapply(analysesSqls, function(x) { return(gsub("'' as", "cast('' as varchar(255))", x))} )
+    
     sql <-
       SqlRender::loadRenderTranslateSql(
         sqlFilename = "analyses/create_analysis_table.sql",
